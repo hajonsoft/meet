@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { LiveKitRoom, VideoConference } from "@livekit/components-react";
+import "@livekit/components-styles";
+import { useState } from "react";
 
-function App() {
+export function App() {
+  const [token, setToken] = useState(localStorage.getItem('token') || '')
+  const handleOnChange = (e) => {
+    setToken(e.target.value)
+    localStorage.setItem('token', e.target.value)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input onChange={handleOnChange} value={token} placeholder="Paste token here" style={{width: '100%', backgroundColor: '#ccc'}} autoComplete="token"></input>
+    <LiveKitRoom
+      token={token}
+      serverUrl="wss://ayman-ui68sq9r.livekit.cloud"
+      connect={true}
+      video={true}
+    >
+      <VideoConference />
+    </LiveKitRoom>
     </div>
+
   );
 }
 
